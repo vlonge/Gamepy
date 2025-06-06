@@ -28,14 +28,10 @@
         <div class="ui segment">
             <p class="ui big header">{{char.id }} | {{ char.name }}</p>
 
-            {% if char.gender == False %}
-            <span class="ui gray label">Not Complete</span>
-            {% else %}
-            <span class="ui green label">Completed</span>
-            {% endif %}
+            <span class="ui gray label">{{char.gender}}</span>
 
-            <a class="ui blue button" href="/update/{{ todo.id }}">Update</a>
-            <a class="ui red button" href="/delete/{{ todo.id }}">Delete</a>
+            <a class="ui blue button" href="/update/{{ char.id }}">Update</a>
+            <a class="ui red button" href="/delete/{{ char.id }}">Delete</a>
         </div>
         {% endfor %}
     </div>
