@@ -22,14 +22,14 @@ class Character(db.Model):
     gender = db.Column(db.Integer)
 
 
-@app.route("/")
+@app.route("/character")
 def home():
     todo_list = Todo.query.all()
     return render_template("base.html", todo_list=todo_list)
 
 
-@app.route("/add", methods=["POST"])
-def add():
+@app.route("/character/add", methods=["POST"])
+def add_char():
     title = request.form.get("title")
     new_todo = Todo(title=title, complete=False)
     db.session.add(new_todo)
@@ -37,16 +37,16 @@ def add():
     return redirect(url_for("home"))
 
 
-@app.route("/update/<int:todo_id>")
-def update(todo_id):
+@app.route("/character/update/<int:todo_id>")
+def change_gender(todo_id):
     todo = Todo.query.filter_by(id=todo_id).first()
     todo.complete = not todo.complete
     db.session.commit()
     return redirect(url_for("home"))
 
 
-@app.route("/delete/<int:todo_id>")
-def delete(todo_id):
+@app.route("/character/delete/<int:todo_id>")
+def delete_char(todo_id):
     todo = Todo.query.filter_by(id=todo_id).first()
     db.session.delete(todo)
     db.session.commit()
@@ -55,7 +55,7 @@ def delete(todo_id):
 
 @app.cli.command("init_db")
 def init_db():
-    """Initialize the database."""
+    """ Initialize the database."""
     db.create_all()
     print("Initialized the database.")
 
