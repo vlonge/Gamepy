@@ -20,12 +20,15 @@ class Character(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     gender = db.Column(db.Integer)
-
+    
+@app.route("/")
+def home():
+    return render_template("index.html", url_for("character"))
 
 @app.route("/character")
-def home():
-    todo_list = Todo.query.all()
-    return render_template("base.html", todo_list=todo_list)
+def character():
+    char_list = Character.query.all()
+    return render_template("character.html", char_list=char_list)
 
 
 @app.route("/character/add", methods=["POST"])
@@ -34,23 +37,24 @@ def add_char():
     new_char = Character(name, (int) Gender.THEY)
     db.session.add(Character)
     db.session.commit()
-    return redirect(url_for("home"))
+    return redirect(url_for("character"))
 
 
-@app.route("/character/update/<int:todo_id>")
-def change_gender(todo_id):
-    todo = Todo.query.filter_by(id=todo_id).first()
-    todo.complete = not todo.complete
+@app.route("/character/update/<int:char_id>")
+def change_gender(char_id):
+    char = Character.query.filter_by(id=char_id).first()
+    char.gender += 1
+    char.gender %= 4
     db.session.commit()
-    return redirect(url_for("home"))
+    return redirect(url_for("character"))
 
 
-@app.route("/character/delete/<int:todo_id>")
-def delete_char(todo_id):
-    todo = Todo.query.filter_by(id=todo_id).first()
-    db.session.delete(todo)
+@app.route("/character/delete/<int:char_id>")
+def delete_char(char_id):
+    char = Character.query.filter_by(id=char_id).first()
+    db.session.delete(char)
     db.session.commit()
-    return redirect(url_for("home"))
+    return redirect(url_for("character"))
 
 
 @app.cli.command("init_db")
