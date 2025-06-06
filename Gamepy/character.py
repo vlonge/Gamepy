@@ -23,7 +23,8 @@ class Character(db.Model):
     
 @app.route("/")
 def home():
-    return render_template("index.html", url_for("character"))
+    url = url_for("character")
+    return render_template("index.html", url)
 
 @app.route("/character")
 def character():
