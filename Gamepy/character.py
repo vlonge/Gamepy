@@ -30,9 +30,9 @@ def home():
 
 @app.route("/character/add", methods=["POST"])
 def add_char():
-    title = request.form.get("title")
-    new_todo = Todo(title=title, complete=False)
-    db.session.add(new_todo)
+    name = request.form.get("name")
+    new_char = Character(name, (int) Gender.THEY)
+    db.session.add(Character)
     db.session.commit()
     return redirect(url_for("home"))
 
