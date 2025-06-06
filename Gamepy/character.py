@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from enum import Enum 
 
 app = Flask(__name__)
 
@@ -9,10 +10,16 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-class Todo(db.Model):
+class Gender(Enum): 
+    OTHER = 0
+    THEY = 1
+    SHE = 2
+    HE = 3
+
+class Character(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100))
-    complete = db.Column(db.Boolean)
+    name = db.Column(db.String(100))
+    gender = db.Column(db.Integer)
 
 
 @app.route("/")
