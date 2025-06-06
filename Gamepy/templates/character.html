@@ -12,12 +12,12 @@
 
 <body>
     <div style="margin-top: 50px;" class="ui container">
-        <h1 class="ui center aligned header">To Do App</h1>
+        <h1 class="ui center aligned header">Characters</h1>
 
         <form class="ui form" action="/add" method="post">
             <div class="field">
-                <label>Todo Title</label>
-                <input type="text" name="title" placeholder="Enter Todo..."><br>
+                <label>Add Character</label>
+                <input type="text" name="title" placeholder="character name..."><br>
             </div>
             <button class="ui blue button" type="submit">Add</button>
         </form>
@@ -30,8 +30,8 @@
 
             <span class="ui gray label">{{char.gender}}</span>
 
-            <a class="ui blue button" href="/update/{{ char.id }}">Update</a>
-            <a class="ui red button" href="/delete/{{ char.id }}">Delete</a>
+            <a class="ui blue button" href="/character/update/{{ char.id }}">Change Gender</a>
+            <a class="ui red button" href="/character/delete/{{ char.id }}">Delete</a>
         </div>
         {% endfor %}
     </div>
