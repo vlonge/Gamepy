@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from enum import Enum 
+from SQLAlchemy import Enum as colEnum
 
 app = Flask(__name__)
 
@@ -19,7 +20,7 @@ class Gender(Enum):
 class Character(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
-    gender = db.Column(db.Integer)
+    gender = db.Column(db.Enum(Gender))
     
 @app.route("/")
 def home():
@@ -35,7 +36,7 @@ def character():
 @app.route("/character/add", methods=["POST"])
 def add_char():
     name = request.form.get("name")
-    new_char = Character(name, (int) Gender.THEY)
+    new_char = Character(name, Gender.THEY)
     db.session.add(Character)
     db.session.commit()
     return redirect(url_for("character"))
@@ -44,8 +45,10 @@ def add_char():
 @app.route("/character/update/<int:char_id>")
 def change_gender(char_id):
     char = Character.query.filter_by(id=char_id).first()
-    char.gender += 1
-    char.gender %= 4
+    gender = Gender[char.gender] 
+    gender += 1
+    gender %= len(Gender)
+    char.gender = Gender(gender)
     db.session.commit()
     return redirect(url_for("character"))
 
