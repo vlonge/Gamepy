@@ -2,5 +2,8 @@ FROM python:3.13.2-alpine3.21@sha256:323a717dc4a010fee21e3f1aac738ee10bb485de4e7
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-COPY . .
-CMD ["sh"]
+COPY . /app
+#CMD ["sh"]
+#running in python executed manner
+ENTRYPOINT [ "python" ]
+CMD ["app.py" ]
