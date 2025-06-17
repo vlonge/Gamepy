@@ -1,3 +1,9 @@
+# ME SPECIFIC NOTES: 
+MAKE SURE when flask and docker: 
+duplicate your desired py file and rename it app.py
+
+
+
 
 # Docker Dev Env for Python Flask-- Source: https://github.com/aidt001/docker-python-pip-flask.git
 
