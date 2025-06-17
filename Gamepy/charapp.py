@@ -24,7 +24,7 @@ class Character(db.Model):
 @app.route("/")
 def home():
     url = url_for("character")
-    return render_template("index.html", url)
+    return render_template("index.html", url=url)
 
 @app.route("/character")
 def character():
@@ -35,8 +35,8 @@ def character():
 @app.route("/character/add", methods=["POST"])
 def add_char():
     name = request.form.get("name")
-    new_char = Character(name, Gender.THEY)
-    db.session.add(Character)
+    new_char = Character(name=name, gender=Gender.THEY)
+    db.session.add(new_char)
     db.session.commit()
     return redirect(url_for("character"))
 
@@ -44,10 +44,10 @@ def add_char():
 @app.route("/character/update/<int:char_id>")
 def change_gender(char_id):
     char = Character.query.filter_by(id=char_id).first()
-    gender = Gender[char.gender] 
-    gender += 1
-    gender %= len(Gender)
-    char.gender = Gender(gender)
+    gendint = char.gender.value
+    gendint += 1
+    gendint %= len(Gender)
+    char.gender = Gender(gendint)
     db.session.commit()
     return redirect(url_for("character"))
 
@@ -67,4 +67,4 @@ def init_db():
     print("Initialized the database.")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)
