@@ -1,7 +1,8 @@
 import unittest
-from app import app, db, Todo 
+from app import app, db, Character, Gender 
+from random import randint
 
-class TodoTestCase(unittest.TestCase):
+class TestCharacterPage(unittest.TestCase):
 
     def setUp(self):
         # Configure the app for testing
@@ -26,44 +27,62 @@ class TodoTestCase(unittest.TestCase):
         response = self.app.get("/")
         self.assertEqual(response.status_code, 200)
         # Optionally, check for expected content in the rendered template.
-        self.assertIn(b"Todo", response.data)
+        self.assertIn(b"App Pages", response.data)
+        self.assertIn(b"Characters", response.data)
 
-    def test_add_todo(self):
+    def test_character_page(self): 
+        # Test that the home route ("/") returns a 200 OK status code.
+        response = self.app.get("/character")
+        self.assertEqual(response.status_code, 200)
+        # Optionally, check for expected content in the rendered template.
+        self.assertIn(b"Character", response.data)
+
+    def test_add_character(self):
         # Test posting a new todo item using the "/add" route.
-        response = self.app.post("/add", data={"title": "Test Todo"}, follow_redirects=True)
+        name = "Crimson Chin"
+        default_gender = Gender.THEY
+        
+        response = self.app.post("/character/add", data={"name": name},
+                                 follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         # Verify that the new todo has been added to the database.
-        todo = Todo.query.filter_by(title="Test Todo").first()
-        self.assertIsNotNone(todo)
-        self.assertFalse(todo.complete)
+        char = Character.query.filter_by(name=name).first()
+        self.assertIsNotNone(char)
+        self.assertEqual(char.gender, default_gender)
+        self.assertEqual(char.name, name)
 
-    def test_update_todo(self):
+    def test_change_gender(self):
         # Manually add a todo item to update.
-        todo = Todo(title="Update Test", complete=False)
-        db.session.add(todo)
+        name = "Trixie Tang"
+        init_gender = Gender(randint(0,3))
+        changed_gender = Gender((init_gender.value+1)%4)
+        
+        char = Character(name=name, gender=init_gender) 
+        db.session.add(char)
         db.session.commit()
-        todo_id = todo.id
+        char_id = char.id
 
         # Toggle its 'complete' value by accessing the update route.
-        response = self.app.get(f"/update/{todo_id}", follow_redirects=True)
+        response = self.app.get(f"/character/update/{char_id}", follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         # Use Session.get() instead of Query.get()
-        updated_todo = db.session.get(Todo, todo_id)
-        self.assertTrue(updated_todo.complete)
+        updated_char = db.session.get(Character, char_id)
+        self.assertEqual(updated_char.gender, changed_gender)
+        self.assertEqual(char.name, name)
 
     def test_delete_todo(self):
         # Manually add a todo item to delete.
-        todo = Todo(title="Delete Test", complete=False)
-        db.session.add(todo)
+        char = Character(name="character for deletion", gender=Gender.OTHER)
+        db.session.add(char)
         db.session.commit()
-        todo_id = todo.id
+        char_id = char.id
 
         # Delete the todo using the delete route.
-        response = self.app.get(f"/delete/{todo_id}", follow_redirects=True)
+        response = self.app.get(f"/character/delete/{char_id}", follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         # Use Session.get() instead of Query.get()
-        deleted_todo = db.session.get(Todo, todo_id)
-        self.assertIsNone(deleted_todo)
+        deleted_char = db.session.get(Character, char_id)
+        self.assertIsNone(deleted_char)
 
     # def test_failure(self):
     #     # Simulate a failure case

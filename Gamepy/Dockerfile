@@ -4,9 +4,3 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 CMD ["sh"]
-
-#FOR WINDOWS 
-#running in python executed manner
-#COPY . /app
-#ENTRYPOINT [ "python" ]
-#CMD ["app.py" ]
