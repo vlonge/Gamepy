@@ -28,7 +28,7 @@
         <div class="ui segment">
             <p class="ui big header">{{char.id }} | {{ char.name }}</p>
 
-            <span class="ui gray label">{{char.gender}}</span>
+            <span class="ui gray label">{{char.gender.name}}</span>
 
             <a class="ui blue button" href="/character/update/{{ char.id }}">Change Gender</a>
             <a class="ui red button" href="/character/delete/{{ char.id }}">Delete</a>

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from enum import Enum 
+from enum import Enum
 
 app = Flask(__name__)
 
@@ -10,11 +10,14 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-class Gender(Enum): 
+class Gender(Enum):
     OTHER = 0
     THEY = 1
     SHE = 2
     HE = 3
+
+    def __missing__(self, key):
+        self.value = self.OTHER
 
 class Character(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -45,9 +48,8 @@ def add_char():
 def change_gender(char_id):
     char = Character.query.filter_by(id=char_id).first()
     gendint = char.gender.value
-    gendint += 1
-    gendint %= len(Gender)
-    char.gender = Gender(gendint)
+    new_gendint = (gendint + 1) % len(Gender)
+    char.gender = Gender(new_gendint)
     db.session.commit()
     return redirect(url_for("character"))
 
@@ -67,4 +69,4 @@ def init_db():
     print("Initialized the database.")
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',debug=True)
+    app.run(debug=True)

@@ -1,5 +1,6 @@
 import unittest
-from app import app, db, Character, Gender 
+from app import app, db, Character, Gender
+from flask import url_for
 from random import randint
 
 class TestCharacterPage(unittest.TestCase):
@@ -22,13 +23,30 @@ class TestCharacterPage(unittest.TestCase):
         db.drop_all()
         self.ctx.pop()
 
-    def test_home(self):
+    def test_home_unfilled(self):
         # Test that the home route ("/") returns a 200 OK status code.
         response = self.app.get("/")
         self.assertEqual(response.status_code, 200)
+
         # Optionally, check for expected content in the rendered template.
         self.assertIn(b"App Pages", response.data)
         self.assertIn(b"Characters", response.data)
+
+    def test_home_filled(self):
+        # get character page url
+        char_url = ""
+        with app.app_context():
+            char_url = url_for("/character")
+        url = bytes(char_url, "utf-8")
+
+        # Test that the home route ("/") returns a 200 OK status code.
+        response = self.app.get("/")
+        self.assertEqual(response.status_code, 200)
+
+        # Optionally, check for expected content in the rendered template.
+        self.assertIn(b"App Pages", response.data)
+        self.assertIn(b"Characters", response.data)
+        self.assertIn(url, response.data)
 
     def test_character_page(self): 
         # Test that the home route ("/") returns a 200 OK status code.
