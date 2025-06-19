@@ -11,30 +11,39 @@
 </head>
 
 <body>
-    <div style="margin-top: 50px;" class="ui container">
-        <h1 class="ui center aligned header">Characters</h1>
+<div style="margin-top: 50px;" class="ui container">
+    <h1 class="ui center aligned header">Characters</h1>
 
-        <form class="ui form" action="/character/add" method="post">
-            <div class="field">
-                <label>Add Character</label>
-                <input type="text" name="name" placeholder="character name..."><br>
-            </div>
-            <button class="ui blue button" type="submit">Add</button>
-        </form>
+    <form class="ui form" action="/character/add" method="post">
+        <div class="field">
+            <label>Add Character</label>
+            <input type="text" name="name" placeholder="character name..."><br>
+        </div>
+        <button class="ui blue button" type="submit">Add</button>
+    </form>
 
-        <hr>
+    <hr>
 
-        {% for char in char_list %}
+    {% for char in char_list %}
         <div class="ui segment">
-            <p class="ui big header">{{char.id }} | {{ char.name }}</p>
+            <p class="ui big header">{{ char.id }} | {{ char.name }}</p>
+            <span class="ui gray label">{{ char.gender }}</span>
 
-            <span class="ui gray label">{{char.gender.name}}</span>
+            <form class="ui form" action="/character/update/{{ char.id }}" method="post">
+                <label for="chosen gender">Choose a Different Gender</label>
+                <input list="genders" id="chosen gender" name="chosen gender">
+                <datalist id="genders">
+                    {% for gender in gender_list %}
+                        <option value="{{ gender }}">{{ gender }}</option>
+                    {% endfor %}
+                </datalist>
+                <input class="ui blue button" type="Submit" value="Change Gender">
+            </form>
 
-            <a class="ui blue button" href="/character/update/{{ char.id }}">Change Gender</a>
             <a class="ui red button" href="/character/delete/{{ char.id }}">Delete</a>
         </div>
-        {% endfor %}
-    </div>
+    {% endfor %}
+</div>
 </body>
 
 </html>
