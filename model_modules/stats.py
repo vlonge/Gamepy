@@ -13,7 +13,7 @@ class Stats(db.Model):
     description = db.Column(db.Text)
 
 class Character_Stats(db.Model):
-    #charid integer[ref: <> characters.id]
-    #statid integer[ref: <> stats.id]
-    #stat_value String
+    # charid integer[ref: <> characters.id]
+    # statid integer[ref: <> stats.id]
+    # stat_value String
     pass 

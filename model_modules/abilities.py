@@ -10,7 +10,7 @@ db = SQLAlchemy(app)
 class Abilities(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    description = db.Column(db.Text)
+    description = db.Column(db.String)
     effects = db.Column(db.String)
 
 class Character_Abilities(db.Model):

@@ -10,7 +10,7 @@ db = SQLAlchemy(app)
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    description = db.Column(db.Text)
+    description = db.Column(db.String)
 
 class GroupMembership(db.Model):
     # charid integer [ref: <> characters.id]

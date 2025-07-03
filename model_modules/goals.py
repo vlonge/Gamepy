@@ -11,7 +11,7 @@ db = SQLAlchemy(app)
 
 class Goals(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    goal = db.Column(db.Text)
+    goal = db.Column(db.String)
 
 class CharacterGoals(db.Model):
     # charid integer [ref: <> characters.id]
