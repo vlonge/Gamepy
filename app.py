@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-from enum import Enum 
-
+from collections import namedtuple
+import csv
+from enum import Enum
 app = Flask(__name__)
 
 # /// = relative path, //// = absolute path
@@ -9,18 +10,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-
-class Gender(Enum): 
-    OTHER = 0
-    THEY = 1
-    SHE = 2
-    HE = 3
-
-class Character(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    gender = db.Column(db.Enum(Gender))
-    
 @app.route("/")
 def home():
     url = url_for("character")
@@ -29,25 +18,27 @@ def home():
 @app.route("/character")
 def character():
     char_list = Character.query.all()
-    return render_template("character.html", char_list=char_list)
+    gender_list=Pronouns.query.all()
+    gender_list = map(lambda gender: gender.name, gender_list)
+    return render_template("character.html", char_list=char_list, gender_list=gender_list)
 
 
 @app.route("/character/add", methods=["POST"])
 def add_char():
     name = request.form.get("name")
-    new_char = Character(name=name, gender=Gender.THEY)
+    default_pronoun = Pronouns.query.first().name
+    new_char = Character(name=name, gender=default_pronoun)
     db.session.add(new_char)
     db.session.commit()
     return redirect(url_for("character"))
 
 
-@app.route("/character/update/<int:char_id>")
+@app.route("/character/update/<int:char_id>", methods=["POST"])
 def change_gender(char_id):
     char = Character.query.filter_by(id=char_id).first()
-    gendint = char.gender.value
-    gendint += 1
-    gendint %= len(Gender)
-    char.gender = Gender(gendint)
+    char.gender = request.form.get("chosen gender")
+    if not char.gender in map(lambda x: x.name, Pronouns.query.all()):
+        flash("Don't forget to update the Prounouns database with this new gender!")
     db.session.commit()
     return redirect(url_for("character"))
 
@@ -67,4 +58,4 @@ def init_db():
     print("Initialized the database.")
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',debug=True)
+    app.run(debug=True)
