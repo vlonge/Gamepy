@@ -12,3 +12,13 @@ db = SQLAlchemy(app)
 class Goals(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     goal = db.Column(db.Text)
+
+class CharacterGoals(db.Model):
+    # charid integer [ref: <> characters.id]
+    # goalid integer [ref: > goals.id]
+    pass
+
+class GroupGoals(db.Model):
+    # groupid integer [ref: <> groups.id]
+    # goalid integer [ref: > goals.id]
+    pass
