@@ -1,5 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
-db = SQLAlchemy()
+from models.characters import db
 
 
 class Groups(db.Model):

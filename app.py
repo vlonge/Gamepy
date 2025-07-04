@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-from models.characters import Characters
+from models.characters import Characters, db
 from models.pronouns import Pronouns, load_pronouns
 from models.places import Places
 from models.groups import Groups, GroupMemberships
@@ -14,8 +14,7 @@ app = Flask(__name__)
 # /// = relative path, //// = absolute path
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
+db.init_app(app)
 @app.route("/")
 def home():
     url = url_for("character")
@@ -64,6 +63,12 @@ def init_db():
     pronouns = load_pronouns()
     Pronouns.create(*pronouns)
     print("Initialized the database.")
+
+@app.cli.command("drop_db")
+def drop_db():
+    """Drop the old database."""
+    db.drop_all()
+    print("Dropped the database.")
 
 if __name__ == "__main__":
     app.run(debug=True)
