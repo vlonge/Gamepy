@@ -31,8 +31,8 @@ def character():
 @app.route("/character/add", methods=["POST"])
 def add_char():
     name = request.form.get("name")
-    default_pronoun = Pronouns.query.first().name
-    new_char = Characters(name=name, gender=default_pronoun)
+    default_pronoun = Pronouns.query.first().id
+    new_char = Characters(name=name, pronouns=default_pronoun)
     db.session.add(new_char)
     db.session.commit()
     return redirect(url_for("character"))
@@ -41,7 +41,7 @@ def add_char():
 @app.route("/character/update/<int:char_id>", methods=["POST"])
 def change_gender(char_id):
     char = Characters.query.filter_by(id=char_id).first()
-    char.gender = request.form.get("chosen gender")
+    char.pronouns = request.form.get("chosen gender")
     if not char.gender in map(lambda x: x.name, Pronouns.query.all()):
         flash("Don't forget to update the Prounouns database with this new gender!")
     db.session.commit()
