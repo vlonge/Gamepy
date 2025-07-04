@@ -12,7 +12,8 @@ def load_pronouns(csv_name= os.path.abspath('./resources/default_pronouns.csv'))
     pronoun_list = []
     with open(csv_name) as csvfile:
         reader = csv.reader(csvfile)
-        pronoun_list.append(PronounTuple(*next(reader)))
+        for row in reader:
+            pronoun_list.append(PronounTuple(*row))
     return pronoun_list
 
 class Pronouns(db.Model):
@@ -31,6 +32,7 @@ class Pronouns(db.Model):
         @pronoun: PronounTuple object to be entered
         """
         pro = cls(**pronoun._asdict())
+        print(pro)
         db.session.add(pro)
         db.session.commit()
 

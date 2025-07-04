@@ -27,17 +27,17 @@
     {% for char in char_list %}
         <div class="ui segment">
             <p class="ui big header">{{ char.id }} | {{ char.name }}</p>
-            <span class="ui gray label">{{ char.gender }}</span>
+            <span class="ui gray label">{{ prodict[char.pronouns] }}</span>
 
             <form class="ui form" action="/character/update/{{ char.id }}" method="post">
-                <label for="chosen gender">Choose a Different Gender</label>
-                <input list="genders" id="chosen gender" name="chosen gender">
-                <datalist id="genders">
-                    {% for gender in gender_list %}
-                        <option value="{{ gender }}">{{ gender }}</option>
+                <label for="chosen pronouns">Choose Different Pronouns</label>
+                <input list="pronouns" id="chosen pronouns" name="chosen pronouns">
+                <datalist id="pronouns">
+                    {% for key in prodict %}
+                        <option value="{{ prodict[key] }}">{{ prodict[key] }}</option>
                     {% endfor %}
                 </datalist>
-                <input class="ui blue button" type="Submit" value="Change Gender">
+                <input class="ui blue button" type="Submit" value="Change Pronouns">
             </form>
 
             <a class="ui red button" href="/character/delete/{{ char.id }}">Delete</a>
