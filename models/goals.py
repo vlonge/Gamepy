@@ -6,12 +6,7 @@ class Goals(db.Model):
     goal = db.Column(db.String)
 
 class OwnedGoals(db.Model):
-    """TODO:
-    Table owned_goals{
-    goalid integer [ref: <> goals.id]
-    charid intger [ref: <> characters.id, null]
-    groupid integer [ref: <> groups.id, null]
-    placeid integer [ref: <> places.id, null]
-    }
-    """
-    pass
+    goalid = db.Column(db.Integer, db.ForeignKey('goals.id'), primary_key=True)
+    charid = db.Column(db.Integer, db.ForeignKey('characters.id'), primary_key=True, nullable=True)
+    groupid = db.Column(db.Integer, db.ForeignKey('groups.id'), primary_key=True, nullable=True)
+    placeid = db.Column(db.Integer, db.ForeignKey('places.id'), primary_key=True, nullable=True)
