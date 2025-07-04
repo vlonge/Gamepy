@@ -13,7 +13,7 @@ class Stats(db.Model):
     description = db.Column(db.Text)
 
 class OwnedStats(db.Model):
-    """
+    """TODO:
     Table owned_stats{
       statid integer [ref: <> stats.id]
       stat_value String

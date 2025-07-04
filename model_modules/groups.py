@@ -8,6 +8,9 @@ class Group(db.Model):
     description = db.Column(db.String)
 
 class GroupMembership(db.Model):
-    # charid integer [ref: <> characters.id]
-    # groupid integer [ref: <> groups.id]
+    """TODO:
+    charid integer [ref: <> characters.id]
+    groupid integer [ref: <> groups.id]
+    private boolean
+    """
     pass

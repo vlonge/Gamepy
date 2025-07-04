@@ -6,7 +6,7 @@ class Goals(db.Model):
     goal = db.Column(db.String)
 
 class OwnedGoals(db.Model):
-    """
+    """TODO:
     Table owned_goals{
     goalid integer [ref: <> goals.id]
     charid intger [ref: <> characters.id, null]

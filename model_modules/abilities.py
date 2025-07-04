@@ -14,7 +14,7 @@ class OwnedAbilities(db.Model):
       charid intger [ref: <> characters.id, null]
       groupid integer [ref: <> groups.id, null]
       placeid integer [ref: <> places.id, null]
-
+      itemid integer [ref: <> items.id, null]
     }
     """
     pass
