@@ -1,14 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_sqlalchemy import SQLAlchemy
 from collections import namedtuple
 import csv
-app = Flask(__name__)
+from flask_sqlalchemy import SQLAlchemy
 
-# /// = relative path, //// = absolute path
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
+db = SQLAlchemy()
 PronounTuple = namedtuple('PronounTuple',["name", "subject", "object", "attributive_possessive", "nominal_possessive", "reflexive"])
 
 def load_pronouns(csv_name='default_pronouns.csv'):

@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-app = Flask(__name__)
+db = SQLAlchemy()
+
 
 # /// = relative path, //// = absolute path
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
@@ -12,8 +12,15 @@ class Stats(db.Model):
     name = db.Column(db.String)
     description = db.Column(db.Text)
 
-class Character_Stats(db.Model):
-    # charid integer[ref: <> characters.id]
-    # statid integer[ref: <> stats.id]
-    # stat_value String
-    pass 
+class OwnedStats(db.Model):
+    """
+    Table owned_stats{
+      statid integer [ref: <> stats.id]
+      stat_value String
+      charid intger [ref: > characters.id, null]
+      groupid integer [ref: > groups.id, null]
+      placeid integer [ref: > places.id, null]
+      itemid integer [ref: > items.id, null]
+    }
+    """
+    pass
