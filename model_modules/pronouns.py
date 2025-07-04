@@ -23,3 +23,14 @@ class Pronouns(db.Model):
     attributive_possessive = db.Column(db.String)
     nominal_possessive = db.Column(db.String)
     reflexive = db.Column(db.String)
+
+    @classmethod
+    def create(cls, pronoun: PronounTuple):
+        """
+        creates a Pronouns entry from a PronounTuple object.
+        @pronoun: PronounTuple object to be entered
+        """
+        pro = cls(**pronoun._asdict())
+        db.sesion.add(pro)
+        db.commit()
+
