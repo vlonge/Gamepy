@@ -1,7 +1,8 @@
+from sqlalchemy import Column, ForeignKey, Integer, String
+from base import Base
 from collections import namedtuple
 import csv
 import os
-from models.characters import db
 
 PronounTuple = namedtuple('PronounTuple',["name", "subject", "object", "attributive_possessive", "nominal_possessive", "reflexive"])
 
@@ -16,23 +17,23 @@ def load_pronouns(csv_name= os.path.abspath('./resources/default_pronouns.csv'))
             pronoun_list.append(PronounTuple(*row))
     return pronoun_list
 
-class Pronouns(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    subject = db.Column(db.String)
-    object = db.Column(db.String)
-    attributive_possessive = db.Column(db.String)
-    nominal_possessive = db.Column(db.String)
-    reflexive = db.Column(db.String)
+class Pronouns(Base):
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    subject = Column(String)
+    object = Column(String)
+    attributive_possessive = Column(String)
+    nominal_possessive = Column(String)
+    reflexive = Column(String)
 
-    @classmethod
-    def create(cls, pronoun: PronounTuple):
-        """
-        creates a Pronouns entry from a PronounTuple object.
-        @pronoun: PronounTuple object to be entered
-        """
-        pro = cls(**pronoun._asdict())
-        print(pro)
-        db.session.add(pro)
-        db.session.commit()
+ #   @classmethod
+ #   def create(cls, pronoun: PronounTuple):
+  #      """
+   #     creates a Pronouns entry from a PronounTuple object.
+    #    @pronoun: PronounTuple object to be entered
+     #   """
+      #  pro = cls(**pronoun._asdict())
+       # print(pro)
+        #session.add(pro)
+        #session.commit()
 

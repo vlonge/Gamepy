@@ -1,8 +1,8 @@
-from flask_sqlalchemy import SQLAlchemy
-db = SQLAlchemy()
+from sqlalchemy import Column, ForeignKey, Integer, String
+from base import Base
 
-class Characters(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    pronouns = db.Column(db.Integer, db.ForeignKey('pronouns.id'))
-    description = db.Column(db.String)
+class Characters(Base):
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    pronouns = Column(Integer, ForeignKey('pronouns.id'))
+    description = Column(String)

@@ -1,7 +1,7 @@
-from models.characters import db
+from sqlalchemy import Column, ForeignKey, Integer, String
+from base import Base
 
-
-class Places(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    description = db.Column(db.String)
+class Places(Base):
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    description = Column(String)

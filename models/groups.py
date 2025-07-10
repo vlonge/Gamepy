@@ -1,12 +1,13 @@
-from models.characters import db
+from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
+from base import Base
 
 
-class Groups(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    description = db.Column(db.String)
+class Groups(Base):
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    description = Column(String)
 
-class GroupMemberships(db.Model):
-    charid = db.Column(db.Integer, db.ForeignKey('characters.id'), primary_key=True)
-    groupid = db.Column(db.Integer, db.ForeignKey('groups.id'), primary_key=True)
-    private = db.Column(db.Boolean)
+class GroupMemberships(Base):
+    charid = Column(Integer, ForeignKey('characters.id'), primary_key=True)
+    groupid = Column(Integer, ForeignKey('groups.id'), primary_key=True)
+    private = Column(Boolean)

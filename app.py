@@ -1,14 +1,14 @@
 import sqlalchemy
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-from models.characters import Characters, db
-from models.pronouns import Pronouns, load_pronouns
-from models.places import Places
-from models.groups import Groups, GroupMemberships
-from models.goals import Goals, OwnedGoals
-from models.items import Items, OwnedItems
-from models.stats import Stats, OwnedStats
-from models.abilities import Abilities, OwnedAbilities
+from flask_models.characters import Characters, db
+from flask_models.pronouns import Pronouns, load_pronouns
+from flask_models.places import Places
+from flask_models.groups import Groups, GroupMemberships
+from flask_models.goals import Goals, OwnedGoals
+from flask_models.items import Items, OwnedItems
+from flask_models.stats import Stats, OwnedStats
+from flask_models.abilities import Abilities, OwnedAbilities
 import secrets
 secret_key = secrets.token_hex(16)
 # example output, secret_key = 000d88cd9d90036ebdd237eb6b0db000
